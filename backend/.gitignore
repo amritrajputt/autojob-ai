@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+pnpm-debug.log*
+
+# Build Output
+dist/
+build/
+
+# Environment variables (Sensitive API keys & DB URLs)
+.env
+.env.local
+.env.*.local
+
+# Local Uploads (resumes, documents)
+uploads/
+temp/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System Files
+.DS_Store
+Thumbs.db
