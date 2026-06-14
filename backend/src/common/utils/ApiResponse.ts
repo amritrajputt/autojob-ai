@@ -1,21 +1,27 @@
-class ApiResponse {
-    statusCode: number;
-    data: any;
+class ApiResponse<T> {
+    data: T | null;
     message: string;
     success: boolean;
 
-    constructor(statusCode: number, data: any, message: string = "Success") {
-        this.statusCode = statusCode;
+    constructor(statusCode: number, data: T | null, message: string = "Success") {
         this.data = data;
         this.message = message;
-        this.success = true;
+        this.success = statusCode < 400;
     }
 
-    static ok(data: any, message: string = "Success") {
+    static success<T>(res: any, message: string, data: T | null = null, statusCode = 200) {
+        return res.status(statusCode).json(new ApiResponse(statusCode, data, message));
+    }
+
+    static error(res: any, message: string, statusCode = 500) {
+        return res.status(statusCode).json(new ApiResponse(statusCode, null, message));
+    }
+    
+    static ok<T>(data: T, message: string = "Success") {
         return new ApiResponse(200, data, message);
     }
 
-    static created(data: any, message: string = "Resource created successfully") {
+    static created<T>(data: T, message: string = "Resource created successfully") {
         return new ApiResponse(201, data, message);
     }
 

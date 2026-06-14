@@ -38,14 +38,9 @@ export const subscriptionStatusEnum = pgEnum('subscription_status',
 // USERS
 
 export const usersTable = pgTable('users', {
-    id: uuid().primaryKey().defaultRandom(),
+    id: varchar('id', { length: 255 }).primaryKey(),
     name: varchar({ length: 255 }),
     email: varchar({ length: 200 }).notNull().unique(),
-    password: varchar({ length: 255 }).notNull(),
-    isVerified: boolean('is_verified').default(false).notNull(),
-    refreshTokenHash: varchar('refresh_token_hash', { length: 255 }),
-    resetPasswordToken: varchar('reset_password_token', { length: 255 }),
-    resetPasswordExpires: timestamp(),
     currentPlan: planOfferedEnum('current_plan').default('free').notNull(),
     isActive: boolean('is_active').default(true),
     isDeleted: boolean('is_deleted').default(false),
@@ -60,7 +55,7 @@ export const usersTable = pgTable('users', {
 
 export const resumeTable = pgTable('resume', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
     label: varchar('label', { length: 100 }).notNull(),
     resumeUrl: varchar('resume_url', { length: 500 }).notNull(),
     resumeFileType: varchar('resume_file_type', { length: 100 }).notNull(),
@@ -77,7 +72,7 @@ export const resumeTable = pgTable('resume', {
 
 export const userPreferencesTable = pgTable('user_preferences', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
     preferredLocation: varchar('preferred_location', { length: 100 }).array().notNull(),
     qualifications: varchar('qualifications', { length: 100 }).array().notNull(),
     skills: varchar('skills', { length: 100 }).array().notNull(),
@@ -99,7 +94,7 @@ export const userPreferencesTable = pgTable('user_preferences', {
 
 export const integrationsTable = pgTable('integrations', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
     groqApiKey: text('groq_api_key'),
     linkedinCookie: text('linkedin_cookie'),
     linkedinCookieStatus: varchar('linkedin_cookie_status', { length: 20 }).default('not_set'),
@@ -116,7 +111,7 @@ export const integrationsTable = pgTable('integrations', {
 
 export const gmailAccountsTable = pgTable('gmail_accounts', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
     isActive: boolean('is_active').default(true),
     email: varchar('email', { length: 255 }).notNull(),
     dailyMailLimit: integer('daily_mail_limit').notNull().default(25),
@@ -137,7 +132,7 @@ export const gmailAccountsTable = pgTable('gmail_accounts', {
 
 export const telegramAccountsTable = pgTable('telegram_accounts', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
     channelName: varchar('channel_name', { length: 255 }).notNull(),
     telegramUsername: varchar('telegram_username', { length: 255 }).notNull(),
     rssUrl: varchar('rss_url', { length: 255 }).notNull(),
@@ -180,7 +175,7 @@ export const jobTable = pgTable('job', {
 
 export const applicationTable = pgTable('applications', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().references(() => usersTable.id, { onDelete: 'cascade' }),
     resumeId: uuid().notNull().references(() => resumeTable.id, { onDelete: 'cascade' }),
     jobId: uuid().notNull().references(() => jobTable.id, { onDelete: 'cascade' }),
     gmailAccountId: uuid().references(() => gmailAccountsTable.id, { onDelete: 'set null' }),
@@ -224,7 +219,7 @@ export const planTable = pgTable('plans', {
 
 export const subscriptionsTable = pgTable('subscription', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid().notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
+    userId: varchar({ length: 255 }).notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
     planId: uuid().references(() => planTable.id, { onDelete: 'set null' }),
 
     planType: planOfferedEnum('plan_type').notNull().default('free'),
