@@ -9,7 +9,7 @@ import helmet from "helmet"
 
 import { errorMiddleware } from "./common/middleware/error.middleware.js"
 import { authMiddleware } from "./common/middleware/auth.middleware.js"
-import { webhookRouter } from "./modules/webhook.routes.js"
+import { webhookRouter } from "./modules/webhook/webhook.routes.js"
 import { usersRouter } from "./modules/users/users.routes.js"
 
 async function main() {
