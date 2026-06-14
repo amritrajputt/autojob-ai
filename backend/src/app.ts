@@ -10,6 +10,7 @@ import helmet from "helmet"
 import { errorMiddleware } from "./common/middleware/error.middleware.js"
 import { authMiddleware } from "./common/middleware/auth.middleware.js"
 import { webhookRouter } from "./modules/webhook.routes.js"
+import { usersRouter } from "./modules/users/users.routes.js"
 
 async function main() {
     const app = express()
@@ -31,7 +32,8 @@ async function main() {
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
 
- 
+    app.use("/api/users", usersRouter)
+
     app.get("/health", (req, res) => {
         res.json({ status: "ok", timestamp: new Date().toISOString() })
     })
