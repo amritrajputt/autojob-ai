@@ -2,8 +2,8 @@ import type { Request, Response } from 'express';
 import { Webhook } from 'svix';
 import type { WebhookEvent } from '@clerk/express';
 import { WebhookService } from './webhook.service.js';
-import { ApiError } from '../common/utils/ApiError.js';
-import { ApiResponse } from '../common/utils/ApiResponse.js';
+import { ApiError } from '../../common/utils/ApiError.js';
+import { ApiResponse } from '../../common/utils/ApiResponse.js';
 
 class WebhookController {
      static async handleWebhook(req: Request, res: Response): Promise<any> {

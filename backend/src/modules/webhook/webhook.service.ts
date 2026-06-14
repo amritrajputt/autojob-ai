@@ -1,5 +1,5 @@
-import db from "../index.js";
-import { usersTable } from "../db/schema.js";
+import db from "../../index.js";
+import { usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 
 class WebhookService {
