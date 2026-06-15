@@ -87,26 +87,26 @@ export const userPreferencesTable = pgTable('user_preferences', {
     updatedAt: timestamp().defaultNow(),
 });
 
-
-
-// INTEGRATIONS (1:1) — Groq key + platform cookies, encrypted
-
-
-export const integrationsTable = pgTable('integrations', {
+export const scraperAccountsTable = pgTable('scraper_accounts', {
     id: uuid().primaryKey().defaultRandom(),
-    userId: varchar({ length: 255 }).notNull().unique().references(() => usersTable.id, { onDelete: 'cascade' }),
-    groqApiKey: text('groq_api_key'),
-    linkedinCookie: text('linkedin_cookie'),
-    linkedinCookieStatus: varchar('linkedin_cookie_status', { length: 20 }).default('not_set'),
-    naukriCookie: text('naukri_cookie'),
-    naukriCookieStatus: varchar('naukri_cookie_status', { length: 20 }).default('not_set'),
-    internshalaCookie: text('internshala_cookie'),
-    internshalaCookieStatus: varchar('internshala_cookie_status', { length: 20 }).default('not_set'),
+    platform: varchar('platform', { length: 50 }).notNull(), // 'linkedin' | 'naukri' | 'internshala'
+    email: varchar('email', { length: 255 }).notNull(),
+    cookie: text('cookie').notNull(), // Encrypted session cookie/string
+    status: varchar('status', { length: 20 }).default('active'), // 'active' | 'rate_limited' | 'banned'
+    lastUsedAt: timestamp('last_used_at'),
     createdAt: timestamp().defaultNow(),
     updatedAt: timestamp().defaultNow(),
 });
 
-
+export const scrapingKeywordsTable = pgTable('scraping_keywords', {
+    id: uuid().primaryKey().defaultRandom(),
+    keyword: varchar('keyword', { length: 255 }).notNull(),   // e.g. "React Developer"
+    location: varchar('location', { length: 255 }),           // e.g. "Bengaluru" or "Remote"
+    isStatic: boolean('is_static').default(true),             // true = baseline, false = dynamically added from user preference
+    isActive: boolean('is_active').default(true),             // can disable keywords without deleting them
+    lastScrapedAt: timestamp('last_scraped_at'),
+    createdAt: timestamp().defaultNow(),
+});
 
 // GMAIL ACCOUNTS (1:many, max 3 enforced in service layer)
 
