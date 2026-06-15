@@ -40,10 +40,8 @@ class WebhookController {
             }) as WebhookEvent;
         } catch (err: any) {
             console.error('[Webhook] Signature verification failed:', err.message);
-            return res.status(400).json({ error: 'Invalid signature' });
+            throw ApiError.badRequest("Invalid signature");
         }
-
-
 
         try {
             const eventType = event.type;
@@ -63,10 +61,10 @@ class WebhookController {
                     console.log(`Unhandled event type: ${eventType}`);
             }
 
-            return ApiResponse.success(res, "opeartion successfull ", { success: true });
+            return ApiResponse.success(res, "Operation successful", { success: true });
         } catch (error: any) {
             console.error(`Error processing webhook event (${event.type}):`, error);
-            return res.status(500).json({ error: 'Internal server error processing webhook' });
+            throw ApiError.internalServerError("Internal server error processing webhook");
         }
     };
 }

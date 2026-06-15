@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import { getAuth } from "@clerk/express";
 import { ApiError } from "../../common/utils/ApiError.js";
 import { ApiResponse } from "../../common/utils/ApiResponse.js";
-import { resumeSchema,updateResumeSchema } from "./resume.dto.js";
 import { ResumeService } from "./resume.service.js";
 
 class ResumeController {
@@ -15,12 +14,7 @@ class ResumeController {
             throw ApiError.badRequest("No file uploaded");
         }
         const file = req.file;
-        const parsed = resumeSchema.safeParse(req.body);
-
-        if (!parsed.success) {
-            throw ApiError.badRequest(parsed.error.issues[0]?.message || "Invalid input data");
-        }
-        const { label } = parsed.data;
+        const { label } = req.body;
         const resume = await ResumeService.uploadResume(userId, file, label);
         return ApiResponse.success(res, "Resume uploaded successfully", resume);
     }
@@ -59,11 +53,7 @@ class ResumeController {
         if (!id || typeof id !== "string") {
             throw ApiError.badRequest("Invalid id");
         }
-        const parsed = updateResumeSchema.safeParse(req.body);
-        if (!parsed.success) {
-            throw ApiError.badRequest(parsed.error.issues[0]?.message || "Invalid input data");
-        }
-        const { label } = parsed.data;
+        const { label } = req.body;
         await ResumeService.updateResumeLabels(id, label);
         return ApiResponse.success(res, "Labels updated successfully");
     }

@@ -13,7 +13,7 @@ import { webhookRouter } from "./modules/webhook/webhook.routes.js"
 import { usersRouter } from "./modules/users/users.routes.js"
 import { resumeRouter } from "./modules/resume/resume.routes.js"
 import { userPreferenceRouter } from "./modules/userPreferences/userPreference.routes.js"
-
+import { integrationRouter } from "./modules/integrations/integration.route.js"
 async function main() {
     const app = express()
     const server = createServer(app)
@@ -37,6 +37,9 @@ async function main() {
     app.use("/api/users", usersRouter)
     app.use("/api/resume", resumeRouter)
     app.use("/api/preference", userPreferenceRouter)
+    app.use("/api/integration", integrationRouter)
+
+
     app.get("/health", (req, res) => {
         res.json({ status: "ok", timestamp: new Date().toISOString() })
     })
