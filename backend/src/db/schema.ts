@@ -99,7 +99,9 @@ export const integrationsTable = pgTable('integrations', {
     linkedinCookie: text('linkedin_cookie'),
     linkedinCookieStatus: varchar('linkedin_cookie_status', { length: 20 }).default('not_set'),
     naukriCookie: text('naukri_cookie'),
+    naukriCookieStatus: varchar('naukri_cookie_status', { length: 20 }).default('not_set'),
     internshalaCookie: text('internshala_cookie'),
+    internshalaCookieStatus: varchar('internshala_cookie_status', { length: 20 }).default('not_set'),
     createdAt: timestamp().defaultNow(),
     updatedAt: timestamp().defaultNow(),
 });

@@ -63,7 +63,6 @@ class WebhookController {
 
             return ApiResponse.success(res, "Operation successful", { success: true });
         } catch (error: any) {
-            console.error(`Error processing webhook event (${event.type}):`, error);
             throw ApiError.internalServerError("Internal server error processing webhook");
         }
     };
