@@ -8,7 +8,7 @@ const usersRouter: Router = Router();
 usersRouter.use(authMiddleware);
 
 usersRouter.get('/me', UsersController.getMe);
-usersRouter.put('/me', UsersController.updateMe);
+usersRouter.patch('/me', UsersController.updateMe);
 usersRouter.get('/plan', UsersController.getActivePlan);
 
 export { usersRouter };

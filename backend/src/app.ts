@@ -12,6 +12,7 @@ import { authMiddleware } from "./common/middleware/auth.middleware.js"
 import { webhookRouter } from "./modules/webhook/webhook.routes.js"
 import { usersRouter } from "./modules/users/users.routes.js"
 import { resumeRouter } from "./modules/resume/resume.routes.js"
+import { userPreferenceRouter } from "./modules/userPreferences/userPreference.routes.js"
 
 async function main() {
     const app = express()
@@ -35,7 +36,7 @@ async function main() {
 
     app.use("/api/users", usersRouter)
     app.use("/api/resume", resumeRouter)
-
+    app.use("/api/preference", userPreferenceRouter)
     app.get("/health", (req, res) => {
         res.json({ status: "ok", timestamp: new Date().toISOString() })
     })

@@ -9,6 +9,6 @@ resumeRouter.use(authMiddleware);
 resumeRouter.post('/uploadresume',upload.single('resume'), ResumeController.uploadResume);
 resumeRouter.get('/getresumes', ResumeController.getResumes);
 resumeRouter.delete('/deleteresume/:id', ResumeController.deleteResume);
-resumeRouter.put('/updateresumelabel/:id', ResumeController.updateResumeLabels);
+resumeRouter.patch('/updateresumelabel/:id', ResumeController.updateResumeLabels);
 
 export {resumeRouter };
